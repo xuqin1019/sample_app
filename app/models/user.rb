@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
     encrypted_password == encrypt(submitted_password)
   end
 
+# The use of "self" in this definition means that "self" refers to the entire User class itself.
+# In this case it's interchangable with "User.authenticate(email, submitted_password)"
   def self.authenticate(email, submitted_password)
     user = find_by_email(email)
     return nil  if user.nil?
@@ -30,6 +32,7 @@ class User < ActiveRecord::Base
 
   private
 
+# In this instance, since "self" is only used inside the method, it referse to the specific instance of the user.
   def encrypt_password
     self.salt = make_salt if new_record?
     self.encrypted_password = encrypt(password)
